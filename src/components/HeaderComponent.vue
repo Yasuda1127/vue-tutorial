@@ -1,8 +1,6 @@
 <template>
   <header class="text-gray-600 body-font">
-    <div
-      class="bg-indigo-500"
-    >
+    <div class="bg-indigo-500">
       <a
         class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0 w-full"
       >
@@ -39,6 +37,22 @@
           >Cart</RouterLink
         >
       </nav>
+      <form @submit.prevent="logout" action="#" method="POST">
+        <button>LogOut</button>
+      </form>
     </div>
   </header>
 </template>
+
+<script>
+import { useCookies } from "vue3-cookies";
+export default {
+  methods: {
+    logout: function () {
+      const { cookies } = useCookies();
+      cookies.remove("id");
+      this.$router.push({ path: "/ItemList" });
+    },
+  },
+};
+</script>
