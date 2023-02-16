@@ -15,6 +15,9 @@
               class="lg:h-48 md:h-360 w-full object-cover object-center"
               alt="blog"
             />
+            <form method="POST" @submit.prevent="cartAdd">
+              <button>カートへ追加する</button>
+            </form>
           </a>
         </div>
       </div>
@@ -22,14 +25,15 @@
   </section>
 </template>
 
-<script lang="ts">
+<script>
 import axios from "axios";
 // import { Item } from "../../types/type";
 
 export default {
   data() {
     return {
-      item: "item",
+      item: "",
+      userId: Number(""),
     };
   },
   mounted() {
@@ -44,6 +48,28 @@ export default {
           vm.item = response.data;
           console.log(response.data);
         });
+    },
+    cartAdd: function () {
+      // const vm = this;
+      const user = document.cookie;
+      const userId = user.slice(3);
+      console.log(userId);
+      const carts = {
+        userId: Number(userId),
+        id: this.item.id,
+        imageUrl: this.item.imageUrl,
+        name: this.item.name,
+        category: this.item.category,
+        flavor: this.item.flavor,
+        price: this.item.price,
+        description: this.item.description,
+        content: this.item.content,
+      };
+
+      axios.post(`http://localhost:8000/carts/`, carts).then((response) => {
+        let u = response.data;
+        // console.log(u);
+      });
     },
   },
 };
