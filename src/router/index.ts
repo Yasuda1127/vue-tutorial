@@ -9,8 +9,8 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      name: "home",
+      path: "/TheWelcome",
+      name: "SignIn",
       component: HomeView,
     },
     {
@@ -22,7 +22,7 @@ const router = createRouter({
       component: () => import("../views/AboutView.vue"),
     },
     { path: "/SignUp", name: "SignUp", component: SignUpView },
-    { path: "/ItemList", name: "ItemList", component: ItemListView },
+    { path: "/", name: "ItemList", component: ItemListView },
     {
       path: "/ItemDetail/:id",
       name: "ItemDetail",
