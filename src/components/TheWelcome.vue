@@ -125,8 +125,9 @@ export default {
           let id = u[0].id;
           const { cookies } = useCookies();
           cookies.set("id", id);
-          this.$router.push({ path: "/ItemList" });
-        });
+          location.reload();
+        })
+        .then(this.$router.push({ path: "/" }));
     },
   },
 };
