@@ -16,7 +16,7 @@
         <div class="py-5 sm:py-8">
           <div
             class="flex flex-wrap gap-4 lg:gap-6 sm:py-2.5"
-            v-for="item in carts"
+            v-for="(item, index) in carts"
             :key="item.id"
           >
             <div class="sm:-my-2.5">
@@ -76,19 +76,23 @@
             >
               <div class="flex flex-col items-start gap-2">
                 <div class="w-20 h-12 flex border rounded overflow-hidden">
-                  <input
+                  <div
                     type="number"
                     value="1"
                     class="w-full focus:ring ring-inset ring-indigo-300 outline-none transition duration-100 px-4 py-2"
-                  />
+                  >
+                    {{ counter }}
+                  </div>
 
                   <div class="flex flex-col border-l divide-y">
                     <button
+                      v-on:click="clickHandlerNext(index)"
                       class="w-6 flex justify-center items-center flex-1 bg-white hover:bg-gray-100 active:bg-gray-200 leading-none select-none transition duration-100"
                     >
                       +
                     </button>
                     <button
+                      v-on:click="clickHandlerPrev"
                       class="w-6 flex justify-center items-center flex-1 bg-white hover:bg-gray-100 active:bg-gray-200 leading-none select-none transition duration-100"
                     >
                       -
@@ -98,7 +102,8 @@
 
                 <button
                   class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 text-sm font-semibold select-none transition duration-100"
-                  @click.prevent="deleteItem(item)"
+                  @click.prevent="deleteItem"
+                  :key="item.id"
                 >
                   Delete
                 </button>
@@ -160,12 +165,19 @@ export default {
   data() {
     return {
       carts: "carts",
-      item: "item",
+      item: "items",
       // userId: "userId",
+      id: "id",
+      counter: 0,
     };
   },
   mounted() {
-    this.cartItems();
+    this.cartItems(),
+      function () {
+        axios
+          .get("http://localhost:8000/carts/")
+          .then((response) => (this.carts = response.data));
+      };
   },
   methods: {
     cartItems: function () {
@@ -181,14 +193,31 @@ export default {
           // console.log(vm.carts);
         });
     },
-    deleteItem: function (item) {
-      const vm = this;
-      const params = { id: item.id };
-      axios.request
-        .get(`http://localhost:8000/carts/${this.$route.params.id}`,{ data: params })
-        .then((response) => {
-          
-        });
+    deleteItem: function (index) {
+      this.cart.splice(index,1)
+    },
+
+    // deleteItem: function () {
+    //   const user = document.cookie;
+    //   const userId = user.slice(3);
+    //   // console.log(userId);
+    //   const vm = this;
+    //   axios
+    //     .delete(`http://localhost:8000/carts/${this.$route.params.id}`)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       let item = response.data[0];
+    //     });
+    //   //   fetch(`http://localhost:8000/carts/${this.$route.params}`, {
+    //   //     method: "DELETE",
+    //   // });
+    // },
+
+    clickHandlerNext: function (event) {
+      this.counter++;
+    },
+    clickHandlerPrev: function (event) {
+      this.counter--;
     },
   },
 };
