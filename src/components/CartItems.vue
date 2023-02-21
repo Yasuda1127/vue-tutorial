@@ -16,7 +16,7 @@
         <div class="py-5 sm:py-8">
           <div
             class="flex flex-wrap gap-4 lg:gap-6 sm:py-2.5"
-            v-for="(item, index) in carts"
+            v-for="item in carts"
             :key="item.id"
           >
             <div class="sm:-my-2.5">
@@ -78,21 +78,21 @@
                 <div class="w-20 h-12 flex border rounded overflow-hidden">
                   <div
                     type="number"
-                    value="1"
+                    value="item.id"
                     class="w-full focus:ring ring-inset ring-indigo-300 outline-none transition duration-100 px-4 py-2"
                   >
-                    {{ counter }}
+                    {{ item.countity }}
                   </div>
 
                   <div class="flex flex-col border-l divide-y">
                     <button
-                      v-on:click="clickHandlerNext(index)"
+                      v-on:click.prevent="clickHandlerNext(item)"
                       class="w-6 flex justify-center items-center flex-1 bg-white hover:bg-gray-100 active:bg-gray-200 leading-none select-none transition duration-100"
                     >
                       +
                     </button>
                     <button
-                      v-on:click="clickHandlerPrev"
+                      v-on:click.prevent="clickHandlerPrev(item)"
                       class="w-6 flex justify-center items-center flex-1 bg-white hover:bg-gray-100 active:bg-gray-200 leading-none select-none transition duration-100"
                     >
                       -
@@ -111,7 +111,7 @@
 
               <div class="pt-3 sm:pt-2 ml-4 md:ml-8 lg:ml-16">
                 <span class="block text-gray-800 md:text-lg font-bold">{{
-                  item.price
+                  item.countPrice
                 }}</span>
               </div>
             </div>
@@ -168,16 +168,11 @@ export default {
       item: "items",
       // userId: "userId",
       id: "id",
-      counter: 0,
+      countity: "countity",
     };
   },
   mounted() {
-    this.cartItems(),
-      function () {
-        axios
-          .get("http://localhost:8000/carts/")
-          .then((response) => (this.carts = response.data));
-      };
+    this.cartItems();
   },
   methods: {
     cartItems: function () {
@@ -194,7 +189,7 @@ export default {
         });
     },
     deleteItem: function (index) {
-      this.cart.splice(index,1)
+      this.carts.splice(index, 1);
     },
 
     // deleteItem: function () {
@@ -213,11 +208,19 @@ export default {
     //   // });
     // },
 
-    clickHandlerNext: function (event) {
-      this.counter++;
+    clickHandlerNext: function (item) {
+      let counts = item.countity++;
+      let prices = Number(item.price);
+      item.countPrice = prices * counts;
+      console.log(item.countPrice);
     },
-    clickHandlerPrev: function (event) {
-      this.counter--;
+    clickHandlerPrev: function (item) {
+      if (item.countity > 1) {
+        let counts = item.countity--;
+        let prices = Number(item.price);
+        item.countPrice = prices * counts;
+        console.log(item.countPrice);
+      }
     },
   },
 };

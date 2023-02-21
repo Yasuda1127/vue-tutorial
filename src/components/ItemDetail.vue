@@ -119,6 +119,31 @@ import { RouterLink, RouterView } from "vue-router";
 
             <span class="text-sm">2-4 day shipping</span>
           </div>
+
+          <div class="w-20 h-12 flex border rounded overflow-hidden">
+            <div
+              type="number"
+              value="1"
+              class="w-full focus:ring ring-inset ring-indigo-300 outline-none transition duration-100 px-4 py-2"
+            >
+              {{ counter }}
+            </div>
+
+            <div class="flex flex-col border-l divide-y">
+              <button
+                v-on:click="clickHandlerNext"
+                class="w-6 flex justify-center items-center flex-1 bg-white hover:bg-gray-100 active:bg-gray-200 leading-none select-none transition duration-100"
+              >
+                +
+              </button>
+              <button
+                v-on:click="clickHandlerPrev"
+                class="w-6 flex justify-center items-center flex-1 bg-white hover:bg-gray-100 active:bg-gray-200 leading-none select-none transition duration-100"
+              >
+                -
+              </button>
+            </div>
+          </div>
           <!-- shipping notice - end -->
 
           <!-- buttons - start -->
@@ -155,6 +180,7 @@ export default {
     return {
       item: "",
       userId: Number(""),
+      counter: 1,
     };
   },
   mounted() {
@@ -185,6 +211,7 @@ export default {
         price: this.item.price,
         description: this.item.description,
         content: this.item.content,
+        countity: this.counter,
       };
 
       axios.post(`http://localhost:8000/carts/`, carts).then((response) => {
@@ -192,6 +219,12 @@ export default {
         // console.log(u);
         this.$router.push({ path: "/CartItems" });
       });
+    },
+    clickHandlerNext: function () {
+      this.counter++;
+    },
+    clickHandlerPrev: function () {
+      this.counter--;
     },
   },
 };
