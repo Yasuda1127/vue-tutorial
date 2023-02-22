@@ -126,7 +126,7 @@ import { RouterLink, RouterView } from "vue-router";
               value="1"
               class="w-full focus:ring ring-inset ring-indigo-300 outline-none transition duration-100 px-4 py-2"
             >
-              {{ counter }}
+              {{ count }}
             </div>
 
             <div class="flex flex-col border-l divide-y">
@@ -149,6 +149,7 @@ import { RouterLink, RouterView } from "vue-router";
           <!-- buttons - start -->
           <div class="flex gap-2.5">
             <!-- <RouterLink :to="`/cartItems/`"> -->
+            <p>{{ price }}</p>
             <form
               method="POST"
               @submit.prevent="cartAdd"
@@ -178,9 +179,11 @@ import axios from "axios";
 export default {
   data() {
     return {
-      item: "",
+      item: "items",
       userId: Number(""),
-      counter: 1,
+      count: 1,
+      price: "price",
+
     };
   },
   mounted() {
@@ -193,7 +196,8 @@ export default {
         .get(`http://localhost:8000/items/${this.$route.params.id}`)
         .then((response) => {
           vm.item = response.data;
-          console.log(response.data);
+          vm.price = vm.item.prices
+          console.log(vm.item.prices);
         });
     },
     cartAdd: function () {
@@ -209,9 +213,11 @@ export default {
         category: this.item.category,
         flavor: this.item.flavor,
         price: this.item.price,
+        priceCalc: this.item.priceCalc,
         description: this.item.description,
         content: this.item.content,
-        countity: this.counter,
+        countity: this.count,
+        deleted: false,
       };
 
       axios.post(`http://localhost:8000/carts/`, carts).then((response) => {
@@ -221,10 +227,21 @@ export default {
       });
     },
     clickHandlerNext: function () {
-      this.counter++;
+      this.count++;
+      console.log(this.item.prices);
+      this.price = this.price + this.item.prices;
+      // this.item.priceCalc = this.item.prices * this.count;
+      // console.log(this.item.priceCalc);
     },
     clickHandlerPrev: function () {
-      this.counter--;
+      // this.counter--;
+      if (this.count > 1) {
+        this.count--;
+        console.log(this.item.prices);
+        this.price = this.price - this.item.prices;
+        // this.item.priceCalc = this.item.prices * this.count;
+        // console.log(this.item.priceCalc);
+      }
     },
   },
 };

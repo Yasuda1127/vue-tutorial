@@ -13,11 +13,10 @@
         class="flex flex-col sm:border-t sm:border-b sm:divide-y mb-5 sm:mb-8"
       >
         <!-- product - start -->
-        <div class="py-5 sm:py-8">
+        <div class="py-5 sm:py-8" v-for="item in carts" :key="item.id">
           <div
             class="flex flex-wrap gap-4 lg:gap-6 sm:py-2.5"
-            v-for="item in carts"
-            :key="item.id"
+            v-if="!item.deleted"
           >
             <div class="sm:-my-2.5">
               <a
@@ -102,7 +101,7 @@
 
                 <button
                   class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 text-sm font-semibold select-none transition duration-100"
-                  @click.prevent="deleteItem"
+                  @click.prevent="deleteItem(item)"
                   :key="item.id"
                 >
                   Delete
@@ -111,50 +110,52 @@
 
               <div class="pt-3 sm:pt-2 ml-4 md:ml-8 lg:ml-16">
                 <span class="block text-gray-800 md:text-lg font-bold">{{
-                  item.countPrice
+                  item.priceCalc
                 }}</span>
               </div>
             </div>
           </div>
         </div>
-        <!-- product - end -->
       </div>
+      <!-- product - end -->
+    </div>
 
-      <!-- totals - start -->
-      <div class="flex flex-col items-end gap-4">
-        <div class="w-full sm:max-w-xs bg-gray-100 rounded-lg p-4">
-          <div class="space-y-1">
-            <div class="flex justify-between text-gray-500 gap-4">
-              <span>Subtotal</span>
-              <span>$129.99</span>
-            </div>
-
-            <div class="flex justify-between text-gray-500 gap-4">
-              <span>Shipping</span>
-              <span>$4.99</span>
-            </div>
+    <!-- totals - start -->
+    <div class="flex flex-col items-end gap-4">
+      <div class="w-full sm:max-w-xs bg-gray-100 rounded-lg p-4">
+        <div class="space-y-1">
+          <div class="flex justify-between text-gray-500 gap-4">
+            <span>Subtotal</span>
+            <span>$129.99</span>
           </div>
 
-          <div class="border-t pt-4 mt-4">
-            <div class="flex justify-between items-start text-gray-800 gap-4">
-              <span class="text-lg font-bold">Total</span>
-
-              <span class="flex flex-col items-end">
-                <span class="text-lg font-bold">$134.98 USD</span>
-                <span class="text-gray-500 text-sm">including VAT</span>
-              </span>
-            </div>
+          <div class="flex justify-between text-gray-500 gap-4">
+            <span>Shipping</span>
+            <span>$4.99</span>
           </div>
         </div>
 
+        <div class="border-t pt-4 mt-4">
+          <div class="flex justify-between items-start text-gray-800 gap-4">
+            <span class="text-lg font-bold">Total</span>
+
+            <span class="flex flex-col items-end">
+              <span class="text-lg font-bold">$134.98 USD</span>
+              <span class="text-gray-500 text-sm">including VAT</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <form method="POST" @submit.prevent="purchaseAdd(carts)">
         <button
           class="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3"
         >
           Check out
         </button>
-      </div>
-      <!-- totals - end -->
+      </form>
     </div>
+    <!-- totals - end -->
   </div>
 </template>
 
@@ -165,10 +166,7 @@ export default {
   data() {
     return {
       carts: "carts",
-      item: "items",
-      // userId: "userId",
-      id: "id",
-      countity: "countity",
+      item: "item",
     };
   },
   mounted() {
@@ -176,6 +174,7 @@ export default {
   },
   methods: {
     cartItems: function () {
+      // ログインしているユーザのカート表示
       const user = document.cookie;
       const userId = user.slice(3);
       // console.log(userId);
@@ -188,39 +187,52 @@ export default {
           // console.log(vm.carts);
         });
     },
-    deleteItem: function (index) {
-      this.carts.splice(index, 1);
+    deleteItem: function (item) {
+      // 削除機能
+      console.log(item);
+      let id = item.id;
+      console.log(item.id);
+      // let id = this.carts.splice(index, 1);
+
+      axios
+        .patch(`http://localhost:8000/carts/` + id, { deleted: true })
+        .then(location.reload());
     },
-
-    // deleteItem: function () {
-    //   const user = document.cookie;
-    //   const userId = user.slice(3);
-    //   // console.log(userId);
-    //   const vm = this;
-    //   axios
-    //     .delete(`http://localhost:8000/carts/${this.$route.params.id}`)
-    //     .then((response) => {
-    //       console.log(response.data);
-    //       let item = response.data[0];
-    //     });
-    //   //   fetch(`http://localhost:8000/carts/${this.$route.params}`, {
-    //   //     method: "DELETE",
-    //   // });
-    // },
-
     clickHandlerNext: function (item) {
-      let counts = item.countity++;
-      let prices = Number(item.price);
-      item.countPrice = prices * counts;
-      console.log(item.countPrice);
+      // 数量変更+
+      item.countity++;
+      console.log(item.countity);
+      console.log(item.price);
+      item.priceCalc = item.price * item.countity;
+      console.log(item.priceCalc);
+
+      // let counts = item.countity++;
+      // let prices = Number(item.price);
+      // item.countPrice = prices * counts;
+      // console.log(item.countPrice);
     },
     clickHandlerPrev: function (item) {
+      // 数量変更-
       if (item.countity > 1) {
-        let counts = item.countity--;
-        let prices = Number(item.price);
-        item.countPrice = prices * counts;
-        console.log(item.countPrice);
+        item.countity--;
+        console.log(item.countity);
+        console.log(item.price);
+        item.priceCalc = item.price * item.countity;
+        console.log(item.priceCalc);
       }
+    },
+    purchaseAdd: function (carts) {
+      let cart = this.carts
+      const purchaseHistories = {
+        cart
+      };
+      console.log(purchaseHistories);
+
+      axios
+        .post(`http://localhost:8000/purchaseHistories/`, cart)
+        .then((response) => {
+          console.log(response.data);
+        });
     },
   },
 };
