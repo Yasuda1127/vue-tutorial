@@ -7,6 +7,7 @@ module.exports = {
     "src/components/ItemDetail.vue",
     "src/components/CartItems.vue",
     "src/components/HeaderComponent.vue",
+    "src/components/PurchaseConf.vue",
   ],
   theme: {
     extend: {},

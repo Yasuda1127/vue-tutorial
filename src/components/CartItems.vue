@@ -131,7 +131,7 @@
 
           <div class="flex justify-between text-gray-500 gap-4">
             <span>Shipping</span>
-            <span>$4.99</span>
+            <span>Free</span>
           </div>
         </div>
 
@@ -140,7 +140,7 @@
             <span class="text-lg font-bold">Total</span>
 
             <span class="flex flex-col items-end">
-              <span class="text-lg font-bold">$134.98 USD</span>
+              <span class="text-lg font-bold">{{ totalPrice(carts) }}</span>
               <span class="text-gray-500 text-sm">including VAT</span>
             </span>
           </div>
@@ -171,6 +171,7 @@ export default {
   },
   mounted() {
     this.cartItems();
+    this.totalPrice();
   },
   methods: {
     cartItems: function () {
@@ -201,38 +202,32 @@ export default {
     clickHandlerNext: function (item) {
       // 数量変更+
       item.countity++;
-      console.log(item.countity);
-      console.log(item.price);
       item.priceCalc = item.price * item.countity;
-      console.log(item.priceCalc);
-
-      // let counts = item.countity++;
-      // let prices = Number(item.price);
-      // item.countPrice = prices * counts;
-      // console.log(item.countPrice);
     },
     clickHandlerPrev: function (item) {
       // 数量変更-
       if (item.countity > 1) {
         item.countity--;
-        console.log(item.countity);
-        console.log(item.price);
         item.priceCalc = item.price * item.countity;
-        console.log(item.priceCalc);
       }
     },
     purchaseAdd: function (carts) {
-      let cart = this.carts
       const purchaseHistories = {
-        cart
+        carts,
       };
       console.log(purchaseHistories);
 
       axios
-        .post(`http://localhost:8000/purchaseHistories/`, cart)
+        .post(`http://localhost:8000/purchaseHistories/`, carts)
         .then((response) => {
           console.log(response.data);
         });
+    },
+    totalPrice: function (carts) {
+      console.log(carts)
+      // return carts.reduce(function (sum, item) {
+      //   return sum + item.price * item.countity;
+      // }, 0);
     },
   },
 };
