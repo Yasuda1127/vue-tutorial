@@ -4,6 +4,7 @@ import SignUpView from "../views/SignUpView.vue";
 import ItemListView from "../views/ItemListView.vue";
 import ItemDetailView from "../views/ItemDetailView.vue";
 import CartView from "../views/CartView.vue";
+import PurchaseConfView from "../views/PurchaseConfView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       name: "Cart",
       component: CartView,
     },
+    {
+      path: "/PurchaseConf",
+      name: "PurchaseConf",
+      component: PurchaseConfView,
+    }
   ],
 });
 

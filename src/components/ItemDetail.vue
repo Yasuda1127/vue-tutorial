@@ -149,7 +149,7 @@ import { RouterLink, RouterView } from "vue-router";
           <!-- buttons - start -->
           <div class="flex gap-2.5">
             <!-- <RouterLink :to="`/cartItems/`"> -->
-            <p>{{ price }}</p>
+            <p>{{ priceCalc }}</p>
             <form
               method="POST"
               @submit.prevent="cartAdd"
@@ -183,7 +183,6 @@ export default {
       userId: Number(""),
       count: 1,
       price: "price",
-
     };
   },
   mounted() {
@@ -191,13 +190,12 @@ export default {
   },
   methods: {
     itemDetail: function () {
-      const vm = this;
       axios
         .get(`http://localhost:8000/items/${this.$route.params.id}`)
         .then((response) => {
-          vm.item = response.data;
-          vm.price = vm.item.prices
-          console.log(vm.item.prices);
+          this.item = response.data;
+          this.priceCalc = this.item.prices
+          console.log(this.item.prices);
         });
     },
     cartAdd: function () {
@@ -213,7 +211,7 @@ export default {
         category: this.item.category,
         flavor: this.item.flavor,
         price: this.item.price,
-        priceCalc: this.item.priceCalc,
+        priceCalc: this.priceCalc,
         description: this.item.description,
         content: this.item.content,
         countity: this.count,
@@ -229,7 +227,7 @@ export default {
     clickHandlerNext: function () {
       this.count++;
       console.log(this.item.prices);
-      this.price = this.price + this.item.prices;
+      this.priceCalc = this.priceCalc + this.item.prices;
       // this.item.priceCalc = this.item.prices * this.count;
       // console.log(this.item.priceCalc);
     },
@@ -238,7 +236,7 @@ export default {
       if (this.count > 1) {
         this.count--;
         console.log(this.item.prices);
-        this.price = this.price - this.item.prices;
+        this.priceCalc = this.priceCalc - this.item.prices;
         // this.item.priceCalc = this.item.prices * this.count;
         // console.log(this.item.priceCalc);
       }
