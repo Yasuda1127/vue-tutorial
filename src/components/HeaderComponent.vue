@@ -37,11 +37,7 @@
           >Cart</RouterLink
         >
       </nav>
-      <form
-        @submit.prevent="logout"
-        method="POST"
-        v-show="isVisibleOut()"
-      >
+      <form @submit.prevent="logout" method="POST" v-show="isVisibleOut()">
         <button>LogOut</button>
       </form>
     </div>

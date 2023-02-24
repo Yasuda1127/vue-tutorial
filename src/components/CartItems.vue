@@ -1,3 +1,7 @@
+<script setup>
+import { RouterLink, RouterView } from "vue-router";
+</script>
+
 <template>
   <div class="bg-white py-6 sm:py-8 lg:py-12">
     <div class="max-w-screen-lg px-4 md:px-8 mx-auto">
@@ -140,7 +144,7 @@
             <span class="text-lg font-bold">Total</span>
 
             <span class="flex flex-col items-end">
-              <span class="text-lg font-bold">{{ totalPrice(carts) }}</span>
+              <span class="text-lg font-bold">{{ total1 }}</span>
               <span class="text-gray-500 text-sm">including VAT</span>
             </span>
           </div>
@@ -154,6 +158,7 @@
           Check out
         </button>
       </form>
+      >
     </div>
     <!-- totals - end -->
   </div>
@@ -167,25 +172,24 @@ export default {
     return {
       carts: "carts",
       item: "item",
+      total1: "",
     };
   },
   mounted() {
     this.cartItems();
-    this.totalPrice();
+    // this.test;
+    // this.totalPrice();
   },
   methods: {
     cartItems: function () {
       // ログインしているユーザのカート表示
       const user = document.cookie;
       const userId = user.slice(3);
-      // console.log(userId);
-      const vm = this;
       axios
         .get(`http://localhost:8000/carts/` + "?" + "userId" + "=" + userId)
         .then((response) => {
           // console.log(response);
-          vm.carts = response.data;
-          // console.log(vm.carts);
+          this.carts = response.data;
         });
     },
     deleteItem: function (item) {
@@ -212,22 +216,41 @@ export default {
       }
     },
     purchaseAdd: function (carts) {
-      const purchaseHistories = {
+      const purchaseConf = {
         carts,
       };
-      console.log(purchaseHistories);
+      console.log(purchaseConf);
 
       axios
-        .post(`http://localhost:8000/purchaseHistories/`, carts)
+        .post(`http://localhost:8000/purchaseConf/`, carts)
         .then((response) => {
-          console.log(response.data);
+          this.$router.push({ path: "/PurchaseConf" });
         });
     },
-    totalPrice: function (carts) {
-      console.log(carts)
-      // return carts.reduce(function (sum, item) {
-      //   return sum + item.price * item.countity;
-      // }, 0);
+    totalPrice: function () {
+      let vm = this;
+      const user = document.cookie;
+      const userId = user.slice(3);
+      let total1 = "";
+
+      axios
+        .get(`http://localhost:8000/carts/` + "?" + "userId" + "=" + userId)
+        .then((response) => {
+          // console.log(response);
+          vm.carts = response.data;
+        });
+      let total = 0;
+
+      vm.carts.forEach(function (item) {
+        total = total + item.price * item.countity;
+      });
+      console.log(total);
+      total1.push(total);
+    },
+  },
+  computed: {
+    test() {
+      return this.totalPrice();
     },
   },
 };
