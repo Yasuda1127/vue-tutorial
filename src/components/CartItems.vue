@@ -218,6 +218,7 @@ export default {
     purchaseAdd: function (carts) {
       const purchaseConf = {
         carts,
+        id: "",
       };
       console.log(purchaseConf);
 
