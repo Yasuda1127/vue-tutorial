@@ -16,10 +16,10 @@
       "lastName": "優斗",
       "email": "yuto11271995@gmail.com",
       "password": "yuto1127",
-      "postCode": "1210202",
+      "postCode": "1200034",
       "region": "東京都",
       "city": "足立区",
-      "streetAddress": "千住",
+      "streetAddress": "千住3-92 千住ミルディス",
       "id": 2
     },
     {
@@ -32,17 +32,6 @@
       "city": "佐倉市",
       "streetAddress": "2-3-4",
       "id": 3
-    },
-    {
-      "firstName": "",
-      "lastName": "",
-      "email": "yuto11271995@gmail.com",
-      "password": "yuto1127",
-      "postCode": "",
-      "region": "",
-      "city": "",
-      "streetAddress": "",
-      "id": 4
     }
   ],
   "carts": [
@@ -58,10 +47,10 @@
         "抹茶"
       ],
       "price": 1990,
-      "priceCalc": 25870,
+      "priceCalc": 5970,
       "description": "1食あたりタンパク質を21g含有。毎日のタンパク質摂取に最高品質のプロテインをどうぞ。乳牛の乳から必要な成分を精製蒸留した後に乾燥。3種類のフレーバーからお選びください。",
       "content": "エネルギー（1食あたり）: 103kcal, 脂質: 1.9g, 炭水化物: 1.0g, タンパク質: 21g, 食塩相当量: 0.13g",
-      "countity": 13,
+      "countity": 3,
       "deleted": false
     },
     {
@@ -76,28 +65,11 @@
         "ミルクティー"
       ],
       "price": 4390,
-      "priceCalc": 48290,
+      "priceCalc": 8780,
       "description": "食あたりタンパク質を23g含有。毎日のタンパク質摂取に最高品質のプロテインをどうぞ。生乳から必要な成分を精製蒸留した後に乾燥。100%天然由来の商品です。3種類の味からお選びください。",
       "content": "エネルギー（1食あたり）: 103kcal, 脂質: 1.9g, 炭水化物: 0.6g, タンパク質: 23g, 食塩相当量: 0.13g",
-      "countity": 11,
+      "countity": 2,
       "deleted": false
-    },
-    {
-      "userId": 2,
-      "id": 3,
-      "imageUrl": "/images/probiotech_whey_protein.jpg",
-      "name": "プロバイオティック ホエイ プロテイン",
-      "category": "whey",
-      "flavor": [
-        "ミルクティー",
-        "チョコ"
-      ],
-      "price": 2190,
-      "priceCalc": 15330,
-      "description": "プロバイオティック* ホエイ プロテインは、濃縮ホエイプロテインと必須ビタミンに加え、プロバイオティクス菌株Ganeden BC30®と酵素成分MyZyme™を独自にブレンドした製品です。美味しいのはもちろん、タンパク質の配合量は1食あたりなんと21g。タンパク質の供給源として毎日欠かせない、高品質のプロテインです。",
-      "content": "エネルギー（1食あたり）: 116kcal, 脂質: 2.44g, 炭水化物: 2.0g, タンパク質: 21g, 食塩相当量: 0.09g",
-      "countity": 7,
-      "deleted": true
     }
   ],
   "purchaseConf": [
@@ -132,28 +104,51 @@
           "ミルクティー"
         ],
         "price": 4390,
-        "priceCalc": 17560,
+        "priceCalc": 8780,
         "description": "食あたりタンパク質を23g含有。毎日のタンパク質摂取に最高品質のプロテインをどうぞ。生乳から必要な成分を精製蒸留した後に乾燥。100%天然由来の商品です。3種類の味からお選びください。",
         "content": "エネルギー（1食あたり）: 103kcal, 脂質: 1.9g, 炭水化物: 0.6g, タンパク質: 23g, 食塩相当量: 0.13g",
-        "countity": 4,
+        "countity": 2,
+        "deleted": false
+      }
+    ]
+  ],
+  "purchaseHistories": [
+    [
+      {
+        "userId": 2,
+        "id": 1,
+        "imageUrl": "/images/impact_whey_protein.jpg",
+        "name": "Impact ホエイ プロテイン",
+        "category": "whey",
+        "flavor": [
+          "チョコ",
+          "ミルクティー",
+          "抹茶"
+        ],
+        "price": 1990,
+        "priceCalc": 5970,
+        "description": "1食あたりタンパク質を21g含有。毎日のタンパク質摂取に最高品質のプロテインをどうぞ。乳牛の乳から必要な成分を精製蒸留した後に乾燥。3種類のフレーバーからお選びください。",
+        "content": "エネルギー（1食あたり）: 103kcal, 脂質: 1.9g, 炭水化物: 1.0g, タンパク質: 21g, 食塩相当量: 0.13g",
+        "countity": 3,
         "deleted": false
       },
       {
         "userId": 2,
-        "id": 3,
-        "imageUrl": "/images/probiotech_whey_protein.jpg",
-        "name": "プロバイオティック ホエイ プロテイン",
+        "id": 2,
+        "imageUrl": "/images/impact_whey_aisolate.jpg",
+        "name": "Impact ホエイ アイソレート",
         "category": "whey",
         "flavor": [
-          "ミルクティー",
-          "チョコ"
+          "チョコ",
+          "ストロベリー",
+          "ミルクティー"
         ],
-        "price": 2190,
-        "priceCalc": 15330,
-        "description": "プロバイオティック* ホエイ プロテインは、濃縮ホエイプロテインと必須ビタミンに加え、プロバイオティクス菌株Ganeden BC30®と酵素成分MyZyme™を独自にブレンドした製品です。美味しいのはもちろん、タンパク質の配合量は1食あたりなんと21g。タンパク質の供給源として毎日欠かせない、高品質のプロテインです。",
-        "content": "エネルギー（1食あたり）: 116kcal, 脂質: 2.44g, 炭水化物: 2.0g, タンパク質: 21g, 食塩相当量: 0.09g",
-        "countity": 7,
-        "deleted": true
+        "price": 4390,
+        "priceCalc": 8780,
+        "description": "食あたりタンパク質を23g含有。毎日のタンパク質摂取に最高品質のプロテインをどうぞ。生乳から必要な成分を精製蒸留した後に乾燥。100%天然由来の商品です。3種類の味からお選びください。",
+        "content": "エネルギー（1食あたり）: 103kcal, 脂質: 1.9g, 炭水化物: 0.6g, タンパク質: 23g, 食塩相当量: 0.13g",
+        "countity": 2,
+        "deleted": false
       }
     ]
   ],

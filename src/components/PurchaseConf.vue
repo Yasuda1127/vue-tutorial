@@ -200,11 +200,16 @@
                 </p>
               </div>
               <div class="w-full flex justify-center items-center">
-                <button
-                  class="hover:bg-black dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white"
+                <form
+                  method="POST"
+                  @submit.prevent="purchaseHistoriesAdd(purchaseConf)"
                 >
-                  View Carrier Details
-                </button>
+                  <button
+                    class="hover:bg-black dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white"
+                  >
+                    購入する
+                  </button>
+                </form>
               </div>
             </div>
           </div>
@@ -232,7 +237,7 @@
                   <p
                     class="text-base dark:text-white font-semibold leading-4 text-left text-gray-800"
                   >
-                    David Kent
+                    {{ users.firstName }} {{ users.lastName }}
                   </p>
                   <p class="text-sm dark:text-gray-300 leading-5 text-gray-600">
                     10 Previous Orders
@@ -254,7 +259,7 @@
                   alt="email"
                 />
                 <p class="cursor-pointer text-sm leading-5">
-                  david89@gmail.com
+                  {{ users.email }}
                 </p>
               </div>
             </div>
@@ -275,7 +280,7 @@
                   <p
                     class="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600"
                   >
-                    180 North King Street, Northhampton MA 1060
+                    {{ users.region }} {{ users.city }}
                   </p>
                 </div>
                 <div
@@ -289,7 +294,7 @@
                   <p
                     class="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600"
                   >
-                    180 North King Street, Northhampton MA 1060
+                    {{ users.streetAddress }}
                   </p>
                 </div>
               </div>
@@ -301,6 +306,12 @@
                 >
                   Edit Details
                 </button>
+                <form
+                  method="POST"
+                  @submit.prevent="purchaseEscape(purchaseConf)"
+                >
+                  <button>削除</button>
+                </form>
               </div>
             </div>
           </div>
@@ -315,10 +326,14 @@ import axios from "axios";
 
 export default {
   data() {
-    return { purchaseConf: "purchaseConf" };
+    return { purchaseConf: "purchaseConf", users: "users" };
   },
   mounted() {
     this.purchaseConfs();
+    this.userData();
+  },
+  unmounted() {
+    // this.purchaseEscape();
   },
   methods: {
     purchaseConfs: function () {
@@ -331,9 +346,30 @@ export default {
         .then((response) => {
           // console.log(response);
           this.purchaseConf = response.data;
-          console.log(this.purchaseConf);
+          // console.log(this.purchaseConf);
         });
     },
+    userData: function () {
+      const user = document.cookie;
+      const userId = user.slice(3);
+      axios
+        .get(`http://localhost:8000/users/` + "?" + "id" + "=" + userId)
+        .then((response) => {
+          this.users = response.data[0];
+          // console.log(this.users);
+        });
+    },
+    purchaseHistoriesAdd: function (purchaseConf) {
+      console.log(purchaseConf);
+      console.log(purchaseConf[0]);
+      axios
+        .post(`http://localhost:8000/purchaseHistories/`, purchaseConf[0])
+        .then((response) => {
+          this.$router.push({ path: "/ThankYou" });
+        });
+    },
+    //   purchaseEscape: function (item) {
+    // },
   },
 };
 </script>
