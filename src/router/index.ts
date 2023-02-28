@@ -7,6 +7,7 @@ import CartView from "../views/CartView.vue";
 import PurchaseConfView from "../views/PurchaseConfView.vue";
 import ThanksView from "../views/ThanksView.vue";
 import HistoriesView from "../views/HistoriesView.vue";
+import UserEditView from "../views/UserEditView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,11 @@ const router = createRouter({
       path: "/PurchaseHistories",
       name: "PurchaseHistories",
       component: HistoriesView,
+    },
+    {
+      path: "/UserEdit",
+      name: "UserEdit",
+      component: UserEditView,
     },
   ],
 });

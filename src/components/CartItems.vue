@@ -218,12 +218,11 @@ export default {
     purchaseAdd: function (carts) {
       carts.forEach((cart) => {
         axios
-        .post(`http://localhost:8000/purchaseConf/`, cart)
-        .then((response) => {
-          this.$router.push({ path: "/PurchaseConf" });
-        });
-      })
-    
+          .post(`http://localhost:8000/purchaseConf/`, cart)
+          .then((response) => {
+            this.$router.push({ path: "/PurchaseConf" });
+          });
+      });
     },
     totalPrice: function () {
       let vm = this;
