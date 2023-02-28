@@ -9,6 +9,7 @@ module.exports = {
     "src/components/HeaderComponent.vue",
     "src/components/PurchaseConf.vue",
     "src/components/ThanksView.vue",
+    "src/components/HistoriesView.vue",
   ],
   theme: {
     extend: {},

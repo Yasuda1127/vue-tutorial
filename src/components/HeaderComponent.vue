@@ -36,6 +36,12 @@
         <RouterLink to="/CartItems" class="mr-5 hover:text-gray-900"
           >Cart</RouterLink
         >
+        <RouterLink to="/PurchaseHistories" class="mr-5 hover:text-gray-900"
+          >Histories</RouterLink
+        >
+        <RouterLink to="/UserEdit" class="mr-5 hover:text-gray-900"
+          >UserEdit</RouterLink
+        >
       </nav>
       <form @submit.prevent="logout" method="POST" v-show="isVisibleOut()">
         <button>LogOut</button>

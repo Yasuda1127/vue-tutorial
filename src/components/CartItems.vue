@@ -216,16 +216,13 @@ export default {
       }
     },
     purchaseAdd: function (carts) {
-      const purchaseConf = {
-        carts,
-      };
-      console.log(purchaseConf);
-
-      axios
-        .post(`http://localhost:8000/purchaseConf/`, carts)
-        .then((response) => {
-          this.$router.push({ path: "/PurchaseConf" });
-        });
+      carts.forEach((cart) => {
+        axios
+          .post(`http://localhost:8000/purchaseConf/`, cart)
+          .then((response) => {
+            this.$router.push({ path: "/PurchaseConf" });
+          });
+      });
     },
     totalPrice: function () {
       let vm = this;

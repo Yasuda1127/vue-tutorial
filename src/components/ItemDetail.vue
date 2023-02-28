@@ -205,7 +205,6 @@ export default {
       console.log(userId);
       const carts = {
         userId: Number(userId),
-        id: this.item.id,
         imageUrl: this.item.imageUrl,
         name: this.item.name,
         category: this.item.category,
