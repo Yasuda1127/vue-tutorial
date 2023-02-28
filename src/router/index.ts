@@ -6,6 +6,7 @@ import ItemDetailView from "../views/ItemDetailView.vue";
 import CartView from "../views/CartView.vue";
 import PurchaseConfView from "../views/PurchaseConfView.vue";
 import ThanksView from "../views/ThanksView.vue";
+import HistoriesView from "../views/HistoriesView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,7 +46,12 @@ const router = createRouter({
       path: "/ThankYou",
       name: "ThankYou",
       component: ThanksView,
-    }
+    },
+    {
+      path: "/PurchaseHistories",
+      name: "PurchaseHistories",
+      component: HistoriesView,
+    },
   ],
 });
 

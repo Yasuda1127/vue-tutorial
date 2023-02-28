@@ -28,7 +28,7 @@
               Customer’s Cart
             </p>
 
-            <div v-for="item in purchaseConf[0]" :key="item.id">
+            <div v-for="item in purchaseConf" :key="item.id">
               <div
                 v-if="!item.deleted"
                 class="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
@@ -306,12 +306,14 @@
                 >
                   Edit Details
                 </button>
-                <form
-                  method="POST"
-                  @submit.prevent="purchaseEscape(purchaseConf)"
-                >
-                  <button>削除</button>
-                </form>
+                <!-- <div v-for="item in purchaseConf[0]" :key="item.id">
+                  <form
+                    method="DELETE"
+                    @submit.prevent="purchaseLeave()"
+                  >
+                    <button>削除</button>
+                  </form>
+                </div> -->
               </div>
             </div>
           </div>
@@ -333,7 +335,7 @@ export default {
     this.userData();
   },
   unmounted() {
-    // this.purchaseEscape();
+    this.purchaseLeave();
   },
   methods: {
     purchaseConfs: function () {
@@ -356,20 +358,36 @@ export default {
         .get(`http://localhost:8000/users/` + "?" + "id" + "=" + userId)
         .then((response) => {
           this.users = response.data[0];
-          // console.log(this.users);
         });
     },
     purchaseHistoriesAdd: function (purchaseConf) {
-      console.log(purchaseConf);
-      console.log(purchaseConf[0]);
-      axios
-        .post(`http://localhost:8000/purchaseHistories/`, purchaseConf[0])
-        .then((response) => {
-          this.$router.push({ path: "/ThankYou" });
+      purchaseConf.forEach((item) => {
+        let id = item.id;
+        axios
+          .post(`http://localhost:8000/purchaseHistories/`, item)
+          .then((response) => {
+            this.$router.push({ path: "/ThankYou" });
+          });
+        axios.patch(`http://localhost:8000/carts/` + id, {
+          deleted: true,
         });
+        axios.patch(`http://localhost:8000/purchaseConf/` + id, {
+          deleted: true,
+        });
+      });
     },
-    //   purchaseEscape: function (item) {
-    // },
+    purchaseLeave: function () {
+      //画面遷移時に購入確認から物理削除
+      let values = this.purchaseConf.filter((item) => item.deleted === false);
+      console.log(values);
+      values.forEach((value) => {
+        let id = Number(value.id);
+        console.log(id);
+        axios
+          .delete(`http://localhost:8000/purchaseConf/` + id)
+          .then((response) => console.log(response.data));
+      });
+    },
   },
 };
 </script>
