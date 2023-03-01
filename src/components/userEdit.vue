@@ -181,7 +181,6 @@ export default {
   },
   methods: {
     userInfo: function () {
-      const vm = this;
       const user = document.cookie;
       const userId = user.slice(3);
       axios

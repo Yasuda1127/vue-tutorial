@@ -144,7 +144,7 @@ import { RouterLink, RouterView } from "vue-router";
             <span class="text-lg font-bold">Total</span>
 
             <span class="flex flex-col items-end">
-              <span class="text-lg font-bold">{{ total1 }}</span>
+              <span class="text-lg font-bold">{{ totalArray[0] }}</span>
               <span class="text-gray-500 text-sm">including VAT</span>
             </span>
           </div>
@@ -158,7 +158,6 @@ import { RouterLink, RouterView } from "vue-router";
           Check out
         </button>
       </form>
-      >
     </div>
     <!-- totals - end -->
   </div>
@@ -172,13 +171,14 @@ export default {
     return {
       carts: "carts",
       item: "item",
-      total1: "",
+      totalArray: 0,
+      total: "total",
     };
   },
   mounted() {
     this.cartItems();
+    this.totalPrice();
     // this.test;
-    // this.totalPrice();
   },
   methods: {
     cartItems: function () {
@@ -194,9 +194,9 @@ export default {
     },
     deleteItem: function (item) {
       // 削除機能
-      console.log(item);
+      // console.log(item);
       let id = item.id;
-      console.log(item.id);
+      // console.log(item.id);
       // let id = this.carts.splice(index, 1);
 
       axios
@@ -225,30 +225,33 @@ export default {
       });
     },
     totalPrice: function () {
-      let vm = this;
       const user = document.cookie;
       const userId = user.slice(3);
-      let total1 = "";
+      let totalArray = [];
 
       axios
         .get(`http://localhost:8000/carts/` + "?" + "userId" + "=" + userId)
         .then((response) => {
           // console.log(response);
-          vm.carts = response.data;
-        });
-      let total = 0;
+          this.carts = response.data;
+          console.log(this.carts);
+          let total = 0;
 
-      vm.carts.forEach(function (item) {
-        total = total + item.price * item.countity;
-      });
-      console.log(total);
-      total1.push(total);
+          this.carts.forEach(function (item) {
+            if (item.deleted === false) {
+              total = total + item.price * item.countity;
+            }
+          });
+          console.log(total);
+          totalArray.push(total);
+          this.totalArray = totalArray;
+        })
     },
   },
-  computed: {
-    test() {
-      return this.totalPrice();
-    },
-  },
+  // computed: {
+  //   test() {
+  //     return this.totalPrice();
+  //   },
+  // },
 };
 </script>

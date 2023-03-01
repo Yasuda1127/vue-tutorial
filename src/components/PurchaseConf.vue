@@ -162,7 +162,7 @@
                 <p
                   class="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600"
                 >
-                  $36.00
+                  ¥{{ totalArray[0] }}
                 </p>
               </div>
             </div>
@@ -333,6 +333,7 @@ export default {
   mounted() {
     this.purchaseConfs();
     this.userData();
+    this.totalPrice();
   },
   unmounted() {
     this.purchaseLeave();
@@ -358,6 +359,31 @@ export default {
         .get(`http://localhost:8000/users/` + "?" + "id" + "=" + userId)
         .then((response) => {
           this.users = response.data[0];
+        });
+    },
+    totalPrice: function () {
+      const user = document.cookie;
+      const userId = user.slice(3);
+      let totalArray = [];
+
+      axios
+        .get(
+          `http://localhost:8000/purchaseConf/` + "?" + "userId" + "=" + userId
+        )
+        .then((response) => {
+          // console.log(response);
+          this.purchaseConf = response.data;
+          console.log(this.purchaseConf);
+          let total = 0;
+
+          this.purchaseConf.forEach(function (item) {
+            if (item.deleted === false) {
+              total = total + item.price * item.countity;
+            }
+          });
+          console.log(total);
+          totalArray.push(total);
+          this.totalArray = totalArray;
         });
     },
     purchaseHistoriesAdd: function (purchaseConf) {
