@@ -38,6 +38,7 @@ import { RouterLink, RouterView } from "vue-router";
 
 <script>
 import axios from "axios";
+import { ref, reactive } from "vue";
 // import { Item } from "../../types/type";
 
 export default {
