@@ -89,13 +89,13 @@ import { RouterLink, RouterView } from "vue-router";
 
                   <div class="flex flex-col border-l divide-y">
                     <button
-                      v-on:click.prevent="clickHandlerNext(item)"
+                      v-on:click.prevent="clickHandlerNext(item, totalArray)"
                       class="w-6 flex justify-center items-center flex-1 bg-white hover:bg-gray-100 active:bg-gray-200 leading-none select-none transition duration-100"
                     >
                       +
                     </button>
                     <button
-                      v-on:click.prevent="clickHandlerPrev(item)"
+                      v-on:click.prevent="clickHandlerPrev(item, totalArray)"
                       class="w-6 flex justify-center items-center flex-1 bg-white hover:bg-gray-100 active:bg-gray-200 leading-none select-none transition duration-100"
                     >
                       -
@@ -203,16 +203,18 @@ export default {
         .patch(`http://localhost:8000/carts/` + id, { deleted: true })
         .then(location.reload());
     },
-    clickHandlerNext: function (item) {
+    clickHandlerNext: function (item, totalArray) {
       // 数量変更+
       item.countity++;
       item.priceCalc = item.price * item.countity;
+      totalArray[0] = totalArray[0] + item.price;
     },
-    clickHandlerPrev: function (item) {
+    clickHandlerPrev: function (item, totalArray) {
       // 数量変更-
       if (item.countity > 1) {
         item.countity--;
         item.priceCalc = item.price * item.countity;
+        totalArray[0] = totalArray[0] - item.price;
       }
     },
     purchaseAdd: function (carts) {
@@ -245,13 +247,8 @@ export default {
           console.log(total);
           totalArray.push(total);
           this.totalArray = totalArray;
-        })
+        });
     },
   },
-  // computed: {
-  //   test() {
-  //     return this.totalPrice();
-  //   },
-  // },
 };
 </script>

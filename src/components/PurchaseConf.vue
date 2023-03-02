@@ -328,7 +328,7 @@ import axios from "axios";
 
 export default {
   data() {
-    return { purchaseConf: "purchaseConf", users: "users" };
+    return { purchaseConf: "purchaseConf", users: "users" ,totalArray:[]};
   },
   mounted() {
     this.purchaseConfs();
