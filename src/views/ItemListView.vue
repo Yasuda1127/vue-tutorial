@@ -6,4 +6,4 @@ import ItemList from "../components/ItemList.vue";
   <main>
     <ItemList />
   </main>
-</template>
+</template> 
