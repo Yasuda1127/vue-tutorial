@@ -44,7 +44,7 @@
         >
       </nav>
       <form @submit.prevent="logout" method="POST" v-show="isVisibleOut()">
-        <button>LogOut</button>
+        <button @click="refresh">LogOut</button>
       </form>
     </div>
   </header>
@@ -71,11 +71,6 @@ export default {
       this.$router.push({ path: "/" });
     },
     isVisible: function () {
-      // if (document.cookie.slice(3) === "") {
-      //   toggle: true;
-      // } else {
-      //   toggle = false;
-      // }
       const user = document.cookie;
       // console.log(document.cookie);
       const userId = user.slice(3);
@@ -88,12 +83,9 @@ export default {
       const userId2 = user.slice(3);
       return userId2 !== "";
     },
+    refresh() {
+      location.reload();
+    },
   },
-  // watch: {
-  //   $route() {
-  //     location.reload()
-  //     this.$router.push({ path: "/ItemList" });
-  //   },
-  // },
 };
 </script>
